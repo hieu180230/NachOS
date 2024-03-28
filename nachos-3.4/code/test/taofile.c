@@ -2,6 +2,6 @@
 
 int main()
 {
-	CreateFile("taofile.txt");
+	CreateFile("taofile1111.txt");
 	return 0;
 }
