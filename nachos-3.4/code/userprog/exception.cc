@@ -101,6 +101,149 @@ int System2User(int virtAddr,int len,char* buffer)
 	return i;
 }
 
+void ExceptionHandler_ReadInt()
+{
+	char* buffer;
+	int MAX_BUFFER = 255;
+	buffer = new char[MAX_BUFFER + 1];
+	int numbytes = gSynchConsole->Read(buffer, MAX_BUFFER);// doc buffer toi da MAX_BUFFER ki tu, tra ve so ki tu doc dc
+	int number = 0; // so luu ket qua tra ve cuoi cung
+
+	/* Qua trinh chuyen doi tu buffer sang so nguyen int */
+			
+	// Xac dinh so am hay so duong                       
+	bool isNegative = false; // Gia thiet la so duong.
+	int firstNumIndex = 0;
+	if(buffer[0] == '-')
+	{
+		isNegative = true;
+		firstNumIndex = 1;                       			   		
+	}
+	// Kiem tra tinh hop le cua so nguyen buffer
+	for(int i = firstNumIndex; i < numbytes; i++)					
+	{
+		if(buffer[i] != ' ' && (buffer[i] < '0' && buffer[i] > '9'))
+		{
+			DEBUG('a', "\n The integer number is not valid");
+			machine->WriteRegister(2, 0);
+			delete buffer;
+			return;
+		} 
+	}	
+	// // La so nguyen hop le, tien hanh chuyen chuoi ve so nguyen
+	for(int i = firstNumIndex; i < numbytes; i++)
+	{
+		number = number * 10 + (int)(buffer[i] - 48); 
+	}
+	// neu la so am thi * -1;
+	if(isNegative)
+	{
+		number = number * -1;
+	}
+	machine->WriteRegister(2, number);
+	delete buffer;
+	return;	
+}
+
+void ExceptionHandler_PrintInt()
+{
+	int number = machine->ReadRegister(4);
+	char* buffer = new char[11];
+	int sign = 0;
+	int len = 0;
+	if(number == 0)
+	{
+		buffer[0] = '0';
+		buffer[1] = '\0';
+	}
+	else
+	{
+		if(number < 0)
+		{
+			sign = 1;
+			number = -number;
+			buffer[0] = '-';
+			len++;
+		}
+		while(number > 0)
+		{
+			buffer[len] = number % 10 + '0';
+			number /= 10;
+			len++;
+		}
+		for(int i = sign; i <= len / 2; i++)
+		{
+			char temp = buffer[i];
+			buffer[i] = buffer[len - i];
+			buffer[len - i] = temp;
+		}
+		gSynchConsole->Write(buffer, len);
+	}
+}
+
+
+// void ExceptionHandler_ReadFloat()
+// {
+	
+// }
+
+void ExceptionHandler_PrintFloat()
+{
+	
+}
+
+void ExceptionHandler_ReadChar()
+{
+	char buffer[2];
+	int numBytes = gSynchConsole->Read(buffer, 2);
+
+	if(numBytes == 2) //Neu nhap nhieu hon 1 ky tu thi khong hop le
+	{
+		DEBUG('a', "\nERROR: Chi duoc nhap duy nhat 1 ky tu!");
+		machine->WriteRegister(2, 0);
+	}
+	else if(numBytes == 0) //Ky tu rong
+	{
+		DEBUG('a', "\nERROR: Ky tu rong!");
+		machine->WriteRegister(2, 0);
+	}
+	else
+	{
+		//Chuoi vua lay co dung 1 ky tu, lay ky tu o index = 0, return vao thanh ghi R2
+		char c = buffer[0];
+		machine->WriteRegister(2, c);
+		char d = machine->ReadRegister(2);
+	}
+}
+
+void ExceptionHandler_PrintChar()
+{
+	char c = (char)machine->ReadRegister(4); // Doc ki tu tu thanh ghi r4
+	gSynchConsole->Write(&c, 1); // In ky tu tu bien c, 1 byte
+}
+
+void ExceptionHandler_ReadString()
+{
+	int virtAddr = machine->ReadRegister(4); // Doc dia chi cua chuoi tu thanh ghi r4
+	int length = machine->ReadRegister(5); // Doc do dai cua chuoi tu thanh ghi r5
+	char* buffer = new char[length + 1]; // Tao buffer de chua chuoi
+	gSynchConsole->Read(buffer, length); // Doc chuoi tu console
+	buffer[length] = 0; // Gan ky tu ket thuc chuoi
+	System2User(virtAddr, length, buffer); // Copy chuoi tu buffer sang vung nho cua user
+	delete buffer; // Xoa buffer
+}
+
+void ExceptionHandler_PrintString()
+{
+	int virtAddr = machine->ReadRegister(4); // Doc dia chi cua chuoi tu thanh ghi r4
+	char* buffer = new char[255]; // Tao buffer de chua chuoi
+	buffer = User2System(virtAddr, 255); // Copy chuoi tu vung nho cua user sang buffer
+	gSynchConsole->Write(buffer, strlen(buffer)); // In chuoi tu buffer
+	delete buffer; // Xoa buffer
+}
+
+
+
 // Ham xu ly ngoai le runtime Exception va system call
 void ExceptionHandler(ExceptionType which)
 {
@@ -120,6 +263,34 @@ void ExceptionHandler(ExceptionType which)
     		printf("Shutdown, initiated by user program.\n");
    			interrupt->Halt();
    			break;
+		case SC_ReadInt:
+			ExceptionHandler_ReadInt();
+			IncreasePC();
+			break;
+		case SC_PrintInt:
+			ExceptionHandler_PrintInt();
+			IncreasePC();
+			break;
+		case SC_ReadFloat:
+			break;
+		case SC_PrintFloat:
+			break;
+		case SC_ReadChar:
+			ExceptionHandler_ReadChar();
+			IncreasePC();
+			break;
+		case SC_PrintChar:
+			ExceptionHandler_PrintChar();
+			IncreasePC();
+			break;
+		case SC_ReadString:
+			ExceptionHandler_ReadString();
+			IncreasePC();
+			break;
+		case SC_PrintString:
+			ExceptionHandler_PrintString();
+			IncreasePC();
+			break;
 	case SC_CreateFile:
 		{
 			// Input: Dia chi tu vung nho user cua ten file
