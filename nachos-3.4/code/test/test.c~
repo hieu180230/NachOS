@@ -3,7 +3,7 @@ int main()
 {
     //char ch[100];
     //ReadString(ch, 50);
-    PrintString("hhhk");
+    PrintString("hhhh");
     //Halt();
 	return 0;
 }

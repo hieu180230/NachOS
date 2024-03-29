@@ -78,7 +78,7 @@ char* User2System(int virtAddr,int limit)
 		kernelBuf[i] = (char)oneChar;
 		//printf("%c",kernelBuf[i]);
 		if (oneChar == 0)
-		break;
+			break;
 	}
 	return kernelBuf;
 }
@@ -212,8 +212,9 @@ void ExceptionHandler_ReadChar()
 		//Chuoi vua lay co dung 1 ky tu, lay ky tu o index = 0, return vao thanh ghi R2
 		char c = buffer[0];
 		machine->WriteRegister(2, c);
-		char d = machine->ReadRegister(2);
+		//char d = machine->ReadRegister(2);
 	}
+	delete buffer;
 }
 
 void ExceptionHandler_PrintChar()
@@ -253,45 +254,45 @@ void ExceptionHandler(ExceptionType which)
     case NoException:
     	DEBUG('a', "Everything ok!\n");
     	printf("Everything ok!\n");
-    	break;
+    	return;
     case SyscallException:
     {
     	switch(type)
     	{
     	case SC_Halt:
     		DEBUG('a', "Shutdown, initiated by user program.\n");
-    		printf("Shutdown, initiated by user program.\n");
+    		printf("\nShutdown, initiated by user program!.\n");
    			interrupt->Halt();
    			break;
 		case SC_ReadInt:
 			ExceptionHandler_ReadInt();
 			IncreasePC();
-			break;
+			return;
 		case SC_PrintInt:
 			ExceptionHandler_PrintInt();
 			IncreasePC();
-			break;
+			return;
 		case SC_ReadFloat:
 			break;
 		case SC_PrintFloat:
 			break;
 		case SC_ReadChar:
 			ExceptionHandler_ReadChar();
-			IncreasePC();
+			//IncreasePC();
 			break;
 		case SC_PrintChar:
 			ExceptionHandler_PrintChar();
-			IncreasePC();
+			//IncreasePC();
 			break;
 		case SC_ReadString:
 			ExceptionHandler_ReadString();
 			IncreasePC();
-			break;
+			return;
 		case SC_PrintString:
 			ExceptionHandler_PrintString();
 			IncreasePC();
 			break;
-	case SC_CreateFile:
+		case SC_CreateFile:
 		{
 			// Input: Dia chi tu vung nho user cua ten file
 			// Output: -1 = Loi, 0 = Thanh cong
@@ -347,7 +348,7 @@ void ExceptionHandler(ExceptionType which)
 			break;
 		}
 
-	case SC_Open:
+		case SC_Open:
 		{
 			// Input: arg1: Dia chi cua chuoi name, arg2: type
 			// Output: Tra ve OpenFileID neu thanh, -1 neu loi
@@ -364,6 +365,7 @@ void ExceptionHandler(ExceptionType which)
 			
 			if (fileSystem->index <= 9 && fileSystem->index >= 0) //Chi xu li khi khi index thuoc [0, 9]
 			{
+			
 				if (type == 0 || type == 1) //chi xu li khi type = 0 hoac 1
 				{
 					
@@ -381,15 +383,17 @@ void ExceptionHandler(ExceptionType which)
 					machine->WriteRegister(2, 1); //tra ve OpenFileID
 				}
 				delete[] filename;
-				break;
+				IncreasePC();
+				return;
 			}
 			machine->WriteRegister(2, -1); //Khong mo duoc file return -1
 			
 			delete[] filename;
-			break;
+			IncreasePC();
+			return;
 		}
 
-	case SC_Close:
+		case SC_Close:
 		{
 			//Input id cua file(OpenFileID)
 			// Output: 0: thanh cong, -1 that bai
@@ -401,14 +405,16 @@ void ExceptionHandler(ExceptionType which)
 					delete fileSystem->openf[fid]; //Xoa vung nho luu tru file
 					fileSystem->openf[fid] = NULL; //Gan vung nho NULL
 					machine->WriteRegister(2, 0);
+					IncreasePC();
 					break;
 				}
 			}
 			machine->WriteRegister(2, -1);
+			IncreasePC();
 			break;
 		}
 
-	case SC_Read:
+		case SC_Read:
 		{
 			// Input: buffer(char*), so ky tu(int), id cua file(OpenFileID)
 			// Output: -1: Loi, So byte read thuc su: Thanh cong, -2: Thanh cong
@@ -475,7 +481,7 @@ void ExceptionHandler(ExceptionType which)
 			return;
 		}
 
-	case SC_Write:
+		case SC_Write:
 		{
 			// Input: buffer(char*), so ky tu(int), id cua file(OpenFileID)
 			// Output: -1: Loi, So byte write thuc su: Thanh cong, -2: Thanh cong
@@ -497,6 +503,7 @@ void ExceptionHandler(ExceptionType which)
 			// Kiem tra file co ton tai khong
 			if (fileSystem->openf[id] == NULL)
 			{
+				printf("into this?\n");
 				printf("\nKhong the write vi file nay khong ton tai.");
 				machine->WriteRegister(2, -1);
 				IncreasePC();
@@ -542,41 +549,47 @@ void ExceptionHandler(ExceptionType which)
 			}
 		}
     	}
+    	IncreasePC();
     	break;
     }
     case PageFaultException:
     	DEBUG('a', "No valid translation found\n");
     	printf("No valid translation found\n");
+    	interrupt->Halt();
     	break;
     case ReadOnlyException:
     	DEBUG('a', "Write attempted to page marked \"read-only\"\n");
     	printf("Write attempted to page marked \"read-only\"\n");
+    	interrupt->Halt();
     	break;
     case BusErrorException:
     	DEBUG('a', "Translation resulted in an invalid physical address\n");
     	printf("Translation resulted in an invalid physical address\n");
+    	interrupt->Halt();
     	break;
     case AddressErrorException:
     	DEBUG('a', "Unaligned reference or one thatwas beyond the end of the address space\n");
     	printf("Unaligned reference or one thatwas beyond the end of the address space\n");
+    	interrupt->Halt();
     	break;
     case OverflowException:
     	DEBUG('a', "Integer overflow in add or sub.\n");
     	printf("Integer overflow in add or sub.\n");
+    	interrupt->Halt();
     	break;
     case IllegalInstrException:
     	DEBUG('a', "Unimplemented or reserved instr.\n");
     	printf("Unimplemented or reserved instr.\n");
+    	interrupt->Halt();
     	break;
     case NumExceptionTypes:
     	DEBUG('a', "Num Exception Types\n");
     	printf("Num Exception Types\n");
+    	interrupt->Halt();
     	break;
     default:
-    	printf("Unexpected user mode exception %d %d\n", which, type);
-		ASSERT(FALSE);
 		break;
-    IncreasePC();
+	IncreasePC();
     }
 
 }
