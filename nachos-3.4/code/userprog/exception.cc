@@ -179,6 +179,11 @@ void ExceptionHandler_PrintInt()
 		}
 		gSynchConsole->Write(buffer, len);
 	}
+	for(int i=0;i<len;i++)
+	{
+		printf("%c", buffer[i]);
+	}
+	printf("\n");
 }
 
 
@@ -267,27 +272,27 @@ void ExceptionHandler(ExceptionType which)
 		case SC_ReadInt:
 			ExceptionHandler_ReadInt();
 			IncreasePC();
-			return;
+			break;
 		case SC_PrintInt:
 			ExceptionHandler_PrintInt();
 			IncreasePC();
-			return;
+			break;
 		case SC_ReadFloat:
 			break;
 		case SC_PrintFloat:
 			break;
 		case SC_ReadChar:
 			ExceptionHandler_ReadChar();
-			//IncreasePC();
+			IncreasePC();
 			break;
 		case SC_PrintChar:
 			ExceptionHandler_PrintChar();
-			//IncreasePC();
+			IncreasePC();
 			break;
 		case SC_ReadString:
 			ExceptionHandler_ReadString();
 			IncreasePC();
-			return;
+			break;
 		case SC_PrintString:
 			ExceptionHandler_PrintString();
 			IncreasePC();
