@@ -69,19 +69,19 @@ int main()
 	{
 		PrintString("Element ");
 		PrintInt(i+1);
-		PrintString(" : ");
+		PrintString(": ");
 		arr[i] = ReadInt();
 	}
 	
-	PrintString("\n\nFinal result\n\n");
+	PrintString("\n\----SORTING----\n\n");
+	quickSort(arr, 0, n - 1);
+	
+	PrintString("\n\n----FINAL RESULT----\n");
 	
 	for (i = 0; i < n; i++)
 	{
-		PrintString("Element ");
-		PrintInt(i+1);
-		PrintString(" : ");
 		PrintInt(arr[i]);
-		PrintString("\n");
+		PrintString(" ");
 	}
 	return 0;
 }

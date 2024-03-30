@@ -149,6 +149,7 @@ void ExceptionHandler_PrintInt()
 {
 	int number = machine->ReadRegister(4);
 	char* buffer = new char[11];
+	char * temp = new char[11];
 	int sign = 0;
 	int len = 0;
 	if(number == 0)
@@ -167,15 +168,13 @@ void ExceptionHandler_PrintInt()
 		}
 		while(number > 0)
 		{
-			buffer[len] = number % 10 + '0';
+			temp[len] = number % 10 + '0';
 			number /= 10;
 			len++;
 		}
 		for(int i = sign; i <= len / 2; i++)
 		{
-			char temp = buffer[i];
-			buffer[i] = buffer[len - i];
-			buffer[len - i] = temp;
+			buffer[i] = temp[len - i - 1];
 		}
 		gSynchConsole->Write(buffer, len);
 	}
@@ -219,7 +218,6 @@ void ExceptionHandler_ReadChar()
 		machine->WriteRegister(2, c);
 		//char d = machine->ReadRegister(2);
 	}
-	delete buffer;
 }
 
 void ExceptionHandler_PrintChar()
@@ -271,11 +269,9 @@ void ExceptionHandler(ExceptionType which)
    			break;
 		case SC_ReadInt:
 			ExceptionHandler_ReadInt();
-			IncreasePC();
 			break;
 		case SC_PrintInt:
 			ExceptionHandler_PrintInt();
-			IncreasePC();
 			break;
 		case SC_ReadFloat:
 			break;
@@ -283,19 +279,15 @@ void ExceptionHandler(ExceptionType which)
 			break;
 		case SC_ReadChar:
 			ExceptionHandler_ReadChar();
-			IncreasePC();
 			break;
 		case SC_PrintChar:
 			ExceptionHandler_PrintChar();
-			IncreasePC();
 			break;
 		case SC_ReadString:
 			ExceptionHandler_ReadString();
-			IncreasePC();
 			break;
 		case SC_PrintString:
 			ExceptionHandler_PrintString();
-			IncreasePC();
 			break;
 		case SC_CreateFile:
 		{
