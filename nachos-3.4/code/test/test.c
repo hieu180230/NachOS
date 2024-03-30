@@ -24,19 +24,17 @@
 //     Halt();
 // }
 
-// int main()
-// {
-//     int a = 3, b = 4;
-//     if(a < b)
-//     {
-//         ReadFloat();
-//     }
-//     Halt();
-// }
-
 int main()
 {
-    int x;
-    x = ReadInt();
-    PrintInt(x);
+    int numberFloat;
+    numberFloat = ReadFloat();
+    PrintFloat(numberFloat);
+    Halt();
 }
+
+// int main()
+// {
+//     int x;
+//     x = ReadInt();
+//     PrintInt(x);
+// }

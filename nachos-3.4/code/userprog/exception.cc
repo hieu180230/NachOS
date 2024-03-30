@@ -248,13 +248,58 @@ void ExceptionHandler_ReadFloat()
 
 void ExceptionHandler_PrintFloat()
 {
-	// int number = machine->ReadRegister(4);
-	// float f = *(float*)&number;
-	// char* buffer = new char[40];
-	// int numberInt = (int)f;
-	// float afterDot = f - numberInt;
-	// int sign = 0;
-	// int len = 0;
+	int numberFloat = machine->ReadRegister(4);
+	float* formatNumberFloat = (float*)&numberFloat;
+	char* buffer = new char[50];
+	char* temp = new char[50];
+	int numberAfterDotInt = (int)((*formatNumberFloat - (int)*formatNumberFloat) * 10000000);
+	int number = (int)*formatNumberFloat;
+	int sign = 0;
+	int len = 0;
+	if(number == 0)
+	{
+		buffer[0] = '0';
+		len++;
+	}
+	else
+	{
+		if(number < 0)
+		{
+			sign = 1;
+			number = -number;
+			numberAfterDotInt = -numberAfterDotInt;
+			buffer[0] = '-';
+			len++;
+		}
+		while(number > 0)
+		{
+			temp[len] = number % 10 + '0';
+			number /= 10;
+			len++;
+		}
+		for(int i = len - 1; i >= sign; i--)
+		{
+			buffer[i] = temp[len - i - 1 + sign];
+		}
+	}
+	if(numberAfterDotInt != 0)
+	{
+		buffer[len] = '.';
+		len++;
+		int tempLen = 0;
+		while(numberAfterDotInt > 0)
+		{
+			temp[tempLen] = numberAfterDotInt % 10 + '0';
+			numberAfterDotInt /= 10;
+			tempLen++;
+		}
+		for(int i = tempLen - 1; i >= 0; i--)
+		{
+			buffer[len] = temp[i];
+			len++;
+		}
+	}
+	gSynchConsole->Write(buffer, len);
 
 }
 
