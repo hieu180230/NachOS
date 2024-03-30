@@ -1,12 +1,12 @@
 #include "syscall.h"
-int main()
-{
-    //char ch[100];
-    //ReadString(ch, 50);
-    PrintString("hhhk");
-    //Halt();
-	return 0;
-}
+// int main()
+// {
+//     //char ch[100];
+//     //ReadString(ch, 50);
+//     PrintString("hhhk");
+//     //Halt();
+// 	return 0;
+// }
 
 // int main()
 // {
@@ -16,13 +16,13 @@ int main()
 //     Halt();
 // }
 
-// int main()
-// {
-//     char ch[100];
-//     ReadString(ch, 50);
-//     PrintString(ch);
-//     Halt();
-// }
+int main()
+{
+    char ch[100];
+    ReadString(ch, 50);
+    PrintString(ch);
+    Halt();
+}
 
 // int main()
 // {
