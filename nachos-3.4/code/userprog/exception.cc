@@ -172,28 +172,90 @@ void ExceptionHandler_PrintInt()
 			number /= 10;
 			len++;
 		}
-		for(int i = sign; i <= len / 2; i++)
+		for(int i = len - 1; i >= sign; i--)
 		{
-			buffer[i] = temp[len - i - 1];
+			buffer[i] = temp[len - i - 1 + sign];
 		}
 		gSynchConsole->Write(buffer, len);
-	}
-	for(int i=0;i<len;i++)
-	{
-		printf("%c", buffer[i]);
 	}
 	printf("\n");
 }
 
 
-// void ExceptionHandler_ReadFloat()
-// {
-	
-// }
+void ExceptionHandler_ReadFloat()
+{
+	char* buffer;
+	int MAX_BUFFER = 255;
+	buffer = new char[MAX_BUFFER + 1];
+	int numbytes = gSynchConsole->Read(buffer, MAX_BUFFER);// doc buffer toi da MAX_BUFFER ki tu, tra ve so ki tu doc dc
+	float number = 0; // so luu ket qua tra ve cuoi cung
+
+	int isNegative = 0, isAfterDot = 0, dotPos = 0;
+	float temp = 0;
+	// // Kiem tra tinh hop le cua so thuc buffer
+	if(numbytes > 1 && buffer[0] == '-')
+	{
+		isNegative = 1;
+	}
+	for(int i = isNegative; i < numbytes; i++)
+	{
+		if(isAfterDot)
+		{
+			if(buffer[i] == '.' && (buffer[i] < '0' && buffer[i] > '9'))
+			{
+				DEBUG('a', "\n The float number is not valid");
+				machine->WriteRegister(2, 0);
+				delete buffer;
+				return;
+			}
+			continue;
+		}
+		if(buffer[i] == '.')
+		{
+			dotPos = i;
+			isAfterDot = 1;
+			continue;
+		}
+		if(buffer[i] < '0' && buffer[i] > '9')
+		{
+			DEBUG('a', "\n The float number is not valid");
+			machine->WriteRegister(2, 0);
+			delete buffer;
+			return;
+		}
+	}
+	for(int i = isNegative; i < numbytes; i++)
+	{
+		if(buffer[i] == '.')
+		{
+			dotPos = i;
+			break;
+		}
+		number = number * 10 + (int)(buffer[i] - 48);
+	}
+	for(int i = numbytes - 1; i > dotPos; i--)
+	{
+		temp = temp / 10 + (float)(buffer[i] - 48);
+	} 
+	temp /= 10;
+	number += temp;
+	if(isNegative)
+	{
+		number = -number;
+	}
+	machine->WriteRegister(2,*(int*)&number);
+}
 
 void ExceptionHandler_PrintFloat()
 {
-	
+	// int number = machine->ReadRegister(4);
+	// float f = *(float*)&number;
+	// char* buffer = new char[40];
+	// int numberInt = (int)f;
+	// float afterDot = f - numberInt;
+	// int sign = 0;
+	// int len = 0;
+
 }
 
 void ExceptionHandler_ReadChar()
@@ -274,8 +336,10 @@ void ExceptionHandler(ExceptionType which)
 			ExceptionHandler_PrintInt();
 			break;
 		case SC_ReadFloat:
+			ExceptionHandler_ReadFloat();
 			break;
 		case SC_PrintFloat:
+			ExceptionHandler_PrintFloat();
 			break;
 		case SC_ReadChar:
 			ExceptionHandler_ReadChar();

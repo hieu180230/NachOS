@@ -16,17 +16,27 @@
 //     Halt();
 // }
 
-int main()
-{
-    char ch[100];
-    ReadString(ch, 50);
-    PrintString(ch);
-    Halt();
-}
+// int main()
+// {
+//     char ch[100];
+//     ReadString(ch, 50);
+//     PrintString(ch);
+//     Halt();
+// }
 
 // int main()
 // {
-//     float a;
-//     a = ReadFloat();
+//     int a = 3, b = 4;
+//     if(a < b)
+//     {
+//         ReadFloat();
+//     }
 //     Halt();
 // }
+
+int main()
+{
+    int x;
+    x = ReadInt();
+    PrintInt(x);
+}

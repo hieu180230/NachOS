@@ -136,7 +136,7 @@ void Yield();
 int ReadInt();
 void PrintInt(int number);
 int ReadFloat();
-void PrintFloat(int number);
+void PrintFloat(char* a);
 char ReadChar();
 void PrintChar(char character);
 void ReadString(char buffer[], int length);
