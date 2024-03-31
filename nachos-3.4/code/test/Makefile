@@ -35,7 +35,7 @@ CPP = gcc -E
 INCDIR =-I../userprog -I../threads
 CFLAGS = -G 0 -c $(INCDIR)
 
-all: halt shell matmult sort taofile test echo help ascii quicksort
+all: halt shell matmult sort testint testfloat testchar teststring taofile echo help ascii quicksort
 
 start.o: start.s ../userprog/syscall.h
 	$(CPP) $(CPPFLAGS) start.c > strt.s
@@ -71,12 +71,6 @@ taofile.o: taofile.c
 taofile: taofile.o start.o
 	$(LD) $(LDFLAGS) start.o taofile.o -o taofile.coff
 	../bin/coff2noff taofile.coff taofile
-
-test.o: test.c
-	$(CC) $(CFLAGS) -c test.c
-test: test.o start.o
-	$(LD) $(LDFLAGS) start.o test.o -o test.coff
-	../bin/coff2noff test.coff test
 	
 echo.o: echo.c
 	$(CC) $(CFLAGS) -c echo.c
@@ -101,3 +95,28 @@ quicksort.o: quicksort.c
 quicksort: quicksort.o start.o
 	$(LD) $(LDFLAGS) start.o quicksort.o -o quicksort.coff
 	../bin/coff2noff quicksort.coff quicksort
+
+
+testint.o: testint.c
+	$(CC) $(CFLAGS) -c testint.c
+testint: testint.o start.o
+	$(LD) $(LDFLAGS) start.o testint.o -o testint.coff
+	../bin/coff2noff testint.coff testint
+
+testfloat.o: testfloat.c
+	$(CC) $(CFLAGS) -c testfloat.c
+testfloat: testfloat.o start.o
+	$(LD) $(LDFLAGS) start.o testfloat.o -o testfloat.coff
+	../bin/coff2noff testfloat.coff testfloat
+
+testchar.o: testchar.c
+	$(CC) $(CFLAGS) -c testchar.c
+testchar: testchar.o start.o
+	$(LD) $(LDFLAGS) start.o testchar.o -o testchar.coff
+	../bin/coff2noff testchar.coff testchar
+
+teststring.o: teststring.c
+	$(CC) $(CFLAGS) -c teststring.c
+teststring: teststring.o start.o
+	$(LD) $(LDFLAGS) start.o teststring.o -o teststring.coff
+	../bin/coff2noff teststring.coff teststring
