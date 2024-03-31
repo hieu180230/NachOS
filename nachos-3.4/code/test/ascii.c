@@ -5,36 +5,63 @@ int main()
 {
 	int openFileID = Open("ascii.txt", 0);
 	int i = 0;
-	PrintString("\n\n----ASCII TABLE----\n\n");
+	PrintString("\n\n----ASCII TABLE----\n\n\n");
+	PrintString("DEC	HEX	BIN			CHAR	\n\n");
+	Write("DEC	HEX	BIN			CHAR	\n\n", 20, openFileID);
 	
-	PrintString("0	NUL	Null\n1	01	00000001	&#1;	SOH	Start of Heading\n2	02	00000010	&#2;	STX	Start of Text\n3	03	00000011	&#3;	ETX	End of Text\n4	04	00000100	&#4;	EOT	End of Transmission\n5	05	00000101	&#5;	ENQ	Enquiry\n6	06	00000110	&#6;	ACK	Acknowledge\n");
-	Write("0	00	00000000	&#0;	NUL	Null\n1	01	00000001	&#1;	SOH	Start of Heading\n2	02	00000010	&#2;	STX	Start of Text\n3	03	00000011	&#3;	ETX	End of Text\n4	04	00000100	&#4;	EOT	End of Transmission\n5	05	00000101	&#5;	ENQ	Enquiry\n6	06	00000110	&#6;	ACK	Acknowledge\n", 249, openFileID);
+	PrintString("32	20	00100000		space	\n33	21	00100001		!	\n34	22	00100010		\"	\n35	23	00100011		#	\n36	24	00100100		$	\n37	25	00100101		%	\n38	26	00100110		&	\n");
 	
-	PrintString("7	07	00000111	&#7;	BEL	Bell\n8	08	00001000	&#8;	BS	Backspace\n9	09	00001001	&#9;	HT	Horizontal Tab\n10	0A	00001010	&#10;	LF	Line Feed\n11	0B	00001011	&#11;	VT	Vertical Tab\n12	0C	00001100	&#12;	FF	Form Feed\n13	0D	00001101	&#13;	CR	Carriage Return\n");
-	Write("7	07	00000111	&#7;	BEL	Bell\n8	08	00001000	&#8;	BS	Backspace\n9	09	00001001	&#9;	HT	Horizontal Tab\n10	0A	00001010	&#10;	LF	Line Feed\n11	0B	00001011	&#11;	VT	Vertical Tab\n12	0C	00001100	&#12;	FF	Form Feed\n13	0D	00001101	&#13;	CR	Carriage Return\n", 242, openFileID);
-	
-	PrintString("14	0E	00001110	&#14;	SO	Shift Out\n15	0F	00001111	&#15;	SI	Shift In\n16	10	00010000	&#16;	DLE	Data Link Escape\n17	11	00010001	&#17;	DC1	Device Control 1\n18	12	00010010	&#18;	DC2	Device Control 2\n19	13	00010011	&#19;	DC3	Device Control 3\n");
-	Write("14	0E	00001110	&#14;	SO	Shift Out\n15	0F	00001111	&#15;	SI	Shift In\n16	10	00010000	&#16;	DLE	Data Link Escape\n17	11	00010001	&#17;	DC1	Device Control 1\n18	12	00010010	&#18;	DC2	Device Control 2\n19	13	00010011	&#19;	DC3	Device Control 3\n", 235, openFileID);
-	
-	PrintString("20	14	00010100	&#20;	DC4	Device Control 4\n21	15	00010101	&#21;	NAK	Negative Acknowledge\n22	16	00010110	&#22;	SYN	Synchronize\n23	17	00010111	&#23;	ETB	End of Transmission Block\n24	18	00011000	&#24;	CAN	Cancel\n25	19	00011001	&#25;	EM	End of Medium\n26	1A	00011010	&#26;	SUB	Substitute\n");
-	
-	PrintString("26	1A	00011010	&#26;	SUB	Substitute\n27	1B	00011011	&#27;	ESC	Escape\n28	1C	00011100	&#28;	FS	File Separator\n29	1D	00011101	&#29;	GS	Group Separator\n30	1E	00011110	&#30;	RS	Record Separator\n31	1F	00011111	&#31;	US	Unit Separator\n");
-	
-	PrintString("32	20	00100000	&#32;	space	Space\n33	21	00100001	&#33;	!	exclamation mark\n34	22	00100010	&#34;	\"	double quote\n35	23	00100011	&#35;	#	number\n36	24	00100100	&#36;	$	dollar\n37	25	00100101	&#37;	%	percent\n38	26	00100110	&#38;	&	ampersand\n");
-	
-	PrintString("39	27	00100111	&#39;	'	single quote\n40	28	00101000	&#40;	(	left parenthesis\n41	29	00101001	&#41;	)	right parenthesis\n42	2A	00101010	&#42;	*	asterisk\n43	2B	00101011	&#43;	+	plus\n44	2C	00101100	&#44;	,	comma\n45	2D	00101101	&#45;	-	minus\n");
+	PrintString("39	27	00100111		'	\n40	28	00101000		(	\n41	29	00101001		)	\n42	2A	00101010		*	\n43	2B	00101011		+	\n44	2C	00101100		,	\n45	2D	00101101		-	\n");
 
-	PrintString("46	2E	00101110	&#46;	.	period\n47	2F	00101111	&#47;	/	slash\n48	30	00110000	&#48;	0	zero\n49	31	00110001	&#49;	1	one\n50	32	00110010	&#50;	2	two\n");
+	PrintString("46	2E	00101110		.	\n47	2F	00101111		/	\n48	30	00110000		0	\n49	31	00110001		1	\n50	32	00110010		2	\n");
 
-	PrintString("51	33	00110011	&#51;	3	three\n52	34	00110100	&#52;	4	four\n53	35	00110101	&#53;	5	five\n54	36	00110110	&#54;	6	six\n55	37	00110111	&#55;	7	seven\n56	38	00111000	&#56;	8	eight\n57	39	00111001	&#57;	9	nine\n58	3A	00111010	&#58;	:	colon\n");
+	PrintString("51	33	00110011		3	\n52	34	00110100		4	\n53	35	00110101		5	\n54	36	00110110		6	\n55	37	00110111		7	\n56	38	00111000		8	\n57	39	00111001		9	\n58	3A	00111010		:	\n");
 
-	PrintString("59	3B	00111011	&#59;	;	semicolon\n60	3C	00111100	&#60;	<	less than\n61	3D	00111101	&#61;	=	equality sign\n62	3E	00111110	&#62;	>	greater than\n63	3F	00111111	&#63;	?	question mark\n64	40	01000000	&#64;	@	at sign\n");
+	PrintString("59	3B	00111011		;	\n60	3C	00111100		<	\n61	3D	00111101		=	\n62	3E	00111110		>	\n63	3F	00111111		?	\n64	40	01000000		@	\n");
 	
-	Yield();
+	PrintString("65	41	01000001		A	 \n66	42	01000010		B	 \n67	43	01000011		C	 \n68	44	01000100		D	 \n69	45	01000101		E	 \n70	46	01000110		F	 \n71	47	01000111		G	 \n72	48	01001000		H	 \n73	49	01001001		I	 \n74	4A	01001010		J	 \n75	4B	01001011		K	 \n");
 	
-	PrintString("65	41	01000001	&#65;	A	 \n66	42	01000010	&#66;	B	 \n67	43	01000011	&#67;	C	 \n68	44	01000100	&#68;	D	 \n69	45	01000101	&#69;	E	 \n70	46	01000110	&#70;	F	 \n71	47	01000111	&#71;	G	 \n72	48	01001000	&#72;	H	 \n73	49	01001001	&#73;	I	 \n74	4A	01001010	&#74;	J	 \n75	4B	01001011	&#75;	K	 \n");
+	PrintString("76	4C	01001100		L	 \n77	4D	01001101		M	 \n78	4E	01001110		N	 \n79	4F	01001111		O	 \n80	50	01010000		P	 \n81	51	01010001		Q	 \n82	52	01010010		R	 \n83	53	01010011		S	 \n84	54	01010100		T	 \n85	55	01010101		U	 \n");
 	
+	PrintString("86	56	01010110		V	 \n87	57	01010111		W	 \n88	58	01011000		X	 \n89	59	01011001		Y	 \n90	5A	01011010		Z	 \n91	5B	01011011		[	\n92	5C	01011100		\	\n93	5D	01011101		]	\n");
 	
+	PrintString("94	5E	01011110		^	\n95	5F	01011111		_	\n96	60	01100000		`	\n");
+	
+	PrintString("97	61	01100001		a	 \n98	62	01100010		b	 \n99	63	01100011		c	 \n100	64	01100100		d	 \n101	65	01100101		e	 \n102	66	01100110		f	 \n103	67	01100111		g	 \n104	68	01101000		h	 \n105	69	01101001		i	 \n");
+	
+	PrintString("106	6A	01101010		j	 \n107	6B	01101011		k	 \n108	6C	01101100		l	 \n109	6D	01101101		m	 \n110	6E	01101110		n	 \n111	6F	01101111		o	 \n112	70	01110000		p	 \n113	71	01110001		q	 \n114	72	01110010		r	 \n");
+	
+	PrintString("115	73	01110011		s	 \n116	74	01110100		t	 \n117	75	01110101		u	 \n118	76	01110110		v	 \n119	77	01110111		w	 \n120	78	01111000		x	 \n121	79	01111001		y	 \n122	7A	01111010		z	 \n");
+	
+	PrintString("123	7B	01111011		{	\n124	7C	01111100		|	\n125	7D	01111101		}	\n126	7E	01111110		~	\n127	7F	01111111		DEL	\n");
+	
+	//Write to file
+	
+	Write("32	20	00100000		space	\n33	21	00100001		!	\n34	22	00100010		\"	\n35	23	00100011		#	\n36	24	00100100		$	\n37	25	00100101		%	\n38	26	00100110		&	\n", 137, openFileID);
+	
+	Write("39	27	00100111		'	\n40	28	00101000		(	\n41	29	00101001		)	\n42	2A	00101010		*	\n43	2B	00101011		+	\n44	2C	00101100		,	\n45	2D	00101101		-	\n", 133, openFileID);
+
+	Write("46	2E	00101110		.	\n47	2F	00101111		/	\n48	30	00110000		0	\n49	31	00110001		1	\n50	32	00110010		2	\n", 95, openFileID);
+
+	Write("51	33	00110011		3	\n52	34	00110100		4	\n53	35	00110101		5	\n54	36	00110110		6	\n55	37	00110111		7	\n56	38	00111000		8	\n57	39	00111001		9	\n58	3A	00111010		:	\n", 152, openFileID);
+
+	Write("59	3B	00111011		;	\n60	3C	00111100		<	\n61	3D	00111101		=	\n62	3E	00111110		>	\n63	3F	00111111		?	\n64	40	01000000		@	\n", 114, openFileID);
+
+	Write("65	41	01000001		A	 \n66	42	01000010		B	 \n67	43	01000011		C	 \n68	44	01000100		D	 \n69	45	01000101		E	 \n70	46	01000110		F	 \n71	47	01000111		G	 \n72	48	01001000		H	 \n73	49	01001001		I	 \n74	4A	01001010		J	 \n75	4B	01001011		K	 \n", 220, openFileID);
+	
+	Write("76	4C	01001100		L	 \n77	4D	01001101		M	 \n78	4E	01001110		N	 \n79	4F	01001111		O	 \n80	50	01010000		P	 \n81	51	01010001		Q	 \n82	52	01010010		R	 \n83	53	01010011		S	 \n84	54	01010100		T	 \n85	55	01010101		U	 \n", 200, openFileID);
+
+	Write("86	56	01010110		V	 \n87	57	01010111		W	 \n88	58	01011000		X	 \n89	59	01011001		Y	 \n90	5A	01011010		Z	 \n91	5B	01011011		[	\n92	5C	01011100		\	\n93	5D	01011101		]	\n", 156, openFileID);
+
+	Write("94	5E	01011110		^	\n95	5F	01011111		_	\n96	60	01100000		`	\n", 57, openFileID);
+
+	Write("97	61	01100001		a	 \n98	62	01100010		b	 \n99	63	01100011		c	 \n100	64	01100100		d	 \n101	65	01100101		e	 \n102	66	01100110		f	 \n103	67	01100111		g	 \n104	68	01101000		h	 \n105	69	01101001		i	 \n", 186, openFileID);
+
+	Write("106	6A	01101010		j	 \n107	6B	01101011		k	 \n108	6C	01101100		l	 \n109	6D	01101101		m	 \n110	6E	01101110		n	 \n111	6F	01101111		o	 \n112	70	01110000		p	 \n113	71	01110001		q	 \n114	72	01110010		r	 \n", 189, openFileID);
+
+	Write("115	73	01110011		s	 \n116	74	01110100		t	 \n117	75	01110101		u	 \n118	76	01110110		v	 \n119	77	01110111		w	 \n120	78	01111000		x	 \n121	79	01111001		y	 \n122	7A	01111010		z	 \n", 168, openFileID);
+
+	Write("123	7B	01111011		{	\n124	7C	01111100		|	\n125	7D	01111101		}	\n126	7E	01111110		~	\n127	7F	01111111		DEL	\n", 101, openFileID);
 	Close(openFileID);
 	return 0;
 }

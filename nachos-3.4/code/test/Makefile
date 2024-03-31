@@ -35,7 +35,8 @@ CPP = gcc -E
 INCDIR =-I../userprog -I../threads
 CFLAGS = -G 0 -c $(INCDIR)
 
-all: halt shell matmult sort testint testfloat testchar teststring taofile echo help ascii quicksort
+
+all: halt shell matmult sort testint testfloat testchar teststring taofile echo help ascii quicksort mergesort
 
 start.o: start.s ../userprog/syscall.h
 	$(CPP) $(CPPFLAGS) start.c > strt.s
@@ -96,7 +97,6 @@ quicksort: quicksort.o start.o
 	$(LD) $(LDFLAGS) start.o quicksort.o -o quicksort.coff
 	../bin/coff2noff quicksort.coff quicksort
 
-
 testint.o: testint.c
 	$(CC) $(CFLAGS) -c testint.c
 testint: testint.o start.o
@@ -120,3 +120,9 @@ teststring.o: teststring.c
 teststring: teststring.o start.o
 	$(LD) $(LDFLAGS) start.o teststring.o -o teststring.coff
 	../bin/coff2noff teststring.coff teststring
+
+mergesort.o: mergesort.c
+	$(CC) $(CFLAGS) -c mergesort.c
+mergesort: mergesort.o start.o
+	$(LD) $(LDFLAGS) start.o mergesort.o -o mergesort.coff
+	../bin/coff2noff mergesort.coff mergesort
