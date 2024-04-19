@@ -653,7 +653,10 @@ void ExceptionHandler(ExceptionType which)
 				return;
 			}
 		}
-    	}
+    	
+		case SC_Exec:
+		
+		}
     	IncreasePC();
     	break;
     }

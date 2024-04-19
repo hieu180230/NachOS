@@ -4,6 +4,8 @@
 #include "thread.h"
 #include "addrspace.h"
 
+extern void StartProcess_2(int id);
+
 PCB::PCB(int id)
 {
 	joinsem= new Semaphore("JoinSem",0);
@@ -95,18 +97,29 @@ void PCB::ExitRelease()
 //------------------------------------------------------------------
 int PCB::Exec(char *filename, int pID)
 {
+    // Gọi mutex->P(); để giúp tránh tình trạng nạp 2 tiến trình cùng 1 lúc.
 	mutex->P();
-	thread= new Thread(filename);
-	if(thread == NULL)
-	{
-		printf("\nLoi: Khong tao duoc tien trinh moi !!!\n");
-		mutex->V();
+
+    // Kiểm tra thread đã khởi tạo thành công chưa, nếu chưa thì báo lỗi là không đủ bộ nhớ, gọi mutex->V() và return.             
+	this->thread = new Thread(filename);
+
+	if(this->thread == NULL){
+		printf("\nPCB::Exec:: Not enough memory..!\n");
+        	mutex->V();
 		return -1;
 	}
-	thread->processID= pID;
-	thread->Fork(MyStartProcess,pID);
-	mutex->V();
+
+	//  Đặt processID của thread này là id.
+	this->thread->processID = pID;
+	// Đặt parrentID của thread này là processID của thread gọi thực thi Exec
+	this->parentID = currentThread->processID;
+	// Gọi thực thi Fork(StartProcess_2,id) => Ta cast thread thành kiểu int, sau đó khi xử ký hàm StartProcess ta cast Thread về đúng kiểu của nó.
+ 	this->thread->Fork(StartProcess_2,pID);
+
+    	mutex->V();
+	// Trả về id.
 	return pID;
+
 }
 
 
