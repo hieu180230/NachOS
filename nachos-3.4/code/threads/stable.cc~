@@ -70,7 +70,7 @@ int STable::Down(char *name)
 			if(strcmp(name, semTab[i]->GetName()) == 0)
 			{
 				// Neu ton tai thi cho semaphore down(); 
-				semTab[i]->down();
+				semTab[i]->wait();
 				return 0;
 			}
 		}
@@ -90,7 +90,7 @@ int STable::Up(char *name)
 			if(strcmp(name, semTab[i]->GetName()) == 0)
 			{
 				// Neu ton tai thi cho semaphore up(); 
-				semTab[i]->up();
+				semTab[i]->signal();
 				return 0;
 			}
 		}

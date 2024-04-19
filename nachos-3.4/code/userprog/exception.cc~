@@ -178,7 +178,6 @@ void ExceptionHandler_PrintInt()
 		}
 		gSynchConsole->Write(buffer, len);
 	}
-	printf("\n");
 }
 
 

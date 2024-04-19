@@ -27,12 +27,12 @@ public:
 			delete sem;
 	}
 
-	void down()
+	void wait()
 	{
 		sem->P();	// Down(sem)
 	}
 
-	void up()
+	void signal()
 	{
 		sem->V();	// Up(sem)
 	}
@@ -58,10 +58,10 @@ public:
 	int Create(char *name, int init);
 
 	// Nếu tồn tại Semaphore “name” thì gọi this->P()để thực thi. Ngược lại, báo lỗi.
-	int Down(char *name);
+	int Wait(char *name);
 
 	// Nếu tồn tại Semaphore “name” thì gọi this->V()để thực thi. Ngược lại, báo lỗi.
-	int Up(char *name);
+	int Signal(char *name);
 	
 	// Tìm slot trống.
 	int FindFreeSlot();
