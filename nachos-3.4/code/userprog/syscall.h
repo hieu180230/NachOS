@@ -43,6 +43,8 @@
 #define SC_PrintString		16
 #define SC_Seek			17
 #define SC_Sum			30
+#define SC_ReadFloat	21
+#define SC_PrintFloat	22
 
 // Syscall Semaphore
 #define SC_CreateSemaphore	18
