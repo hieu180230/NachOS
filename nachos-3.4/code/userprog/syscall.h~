@@ -46,8 +46,8 @@
 
 // Syscall Semaphore
 #define SC_CreateSemaphore	18
-#define SC_Wait			19
-#define SC_Signal		20
+#define SC_Down			19
+#define SC_Up			20
 #ifndef IN_ASM
 
 
@@ -151,9 +151,9 @@ int Seek(int pos, OpenFileId id);
 // Ham tao 1 semaphore voi ten semaphore
 int CreateSemaphore(char* name, int semval);
 
-int Wait(char* name);
+int Down(char* name);
 
-int Signal(char* name);
+int Up(char* name);
 
 
 #endif /* IN_ASM */
