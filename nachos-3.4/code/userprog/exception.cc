@@ -816,13 +816,13 @@ case SC_CreateSemaphore:
 				DEBUG('a', "\n Not enough memory in System");
 				printf("\n Not enough memory in System");
 				machine->WriteRegister(2, -1);
-				//IncreasePC();
+				IncreasePC();
 				return;
 			}
 			OpenFile *oFile = fileSystem->Open(name);
 			if (oFile == NULL)
 			{
-				printf("\nExec:: Can't open this file.");
+				printf("\nExec: Can't open this file.");
 				machine->WriteRegister(2,-1);
 				IncreasePC();
 				return;
@@ -835,7 +835,7 @@ case SC_CreateSemaphore:
 			machine->WriteRegister(2,id);
 
 			delete[] name;	
-			IncreasePC();
+			//IncreasePC();
 			return;
 		}
 		case SC_Join:

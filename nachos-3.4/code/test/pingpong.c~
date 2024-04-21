@@ -1,14 +1,13 @@
 #include "syscall.h"
-#include "copyright.h"
 
 int main()
 {
 	int PingID, PongID;
 	PrintString("PingPong Test Starting... \n");
 	PingID = Exec("./test/a");
-	PongID = Exec("./test.b");
-	Join(PingID);
+	PongID = Exec("./test/b");
 	Join(PongID);
+	Join(PingID);
 	return 0;
 }
 
