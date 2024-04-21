@@ -9,5 +9,6 @@ int main()
 	PongID = Exec("./test.b");
 	Join(PingID);
 	Join(PongID);
+	return 0;
 }
 
